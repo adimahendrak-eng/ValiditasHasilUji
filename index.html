@@ -318,7 +318,7 @@ function sel(id){
   document.getElementById('valWrap').classList.remove('hidden');
   if(t.hasGrade)grade=t.grades[0];
 
-  const gradeHTML=t.hasGrade?`<div class="sec-lbl">Grade / Tipe</div><div class="grade-scroll" id="gs">${t.grades.map((g,i)=>`<button class="grade-btn${i===0?' active':''}" onclick="setG(${JSON.stringify(g)},this)">${g}</button>`).join('')}</div>`:'';
+  const gradeHTML=t.hasGrade?`<div class="sec-lbl">Grade / Tipe</div><div class="grade-scroll" id="gs">${t.grades.map((g,i)=>`<button class="grade-btn${i===0?' active':''}" onclick="setG(${i},this)">${g}</button>`).join('')}</div>`:'';
 
   const useTwo=t.two&&t.inputs.length>=4;
   let inp=`<div class="${useTwo?'inputs-2col':'inputs-grid'}" id="ig">`;
@@ -333,7 +333,7 @@ function sel(id){
   setTimeout(()=>document.getElementById('formPanel').scrollIntoView({behavior:'smooth',block:'start'}),80);
 }
 
-function setG(g,btn){grade=g;document.querySelectorAll('#gs .grade-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('ra').innerHTML='';}
+function setG(i,btn){grade=T[cur].grades[i];document.querySelectorAll('#gs .grade-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('ra').innerHTML='';}
 
 function runVal(){
   const t=T[cur];if(!t)return;
