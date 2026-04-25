@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f3252">
+<title>Validator Lab Jalan Raya — Unila</title>
+<style>
+:root{
+  --primary:#1a4e7c;--primary-d:#0f3252;--primary-l:#2471a3;
+  --green:#1a7a3f;--green-bg:#e8f8ef;--green-bd:#82c9a0;
+  --red:#a02020;--red-bg:#fef0f0;--red-bd:#e8a0a0;
+  --amber:#7a5c00;--amber-bg:#fef8e6;--amber-bd:#f0d060;
+  --blue-bg:#e8f3fd;--blue-bd:#90c4e8;
+  --bg:#f2f4f7;--card:#ffffff;--border:#dde2ea;
+  --text:#18232e;--muted:#606c7a;--muted2:#8e9baa;
+  --radius-sm:8px;--radius:12px;
+  --shadow:0 1px 4px rgba(0,0,0,0.07),0 2px 8px rgba(0,0,0,0.04);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{font-size:16px;}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-text-size-adjust:100%;}
+
+.hdr{background:linear-gradient(135deg,var(--primary-d) 0%,var(--primary) 55%,#1e5f96 100%);color:#fff;padding:1rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.25);}
+.hdr-inner{max-width:640px;margin:auto;display:flex;align-items:center;gap:0.75rem;}
+.hdr-icon{font-size:1.6rem;flex-shrink:0;}
+.hdr-text h1{font-size:0.9rem;font-weight:700;line-height:1.3;}
+.hdr-text p{font-size:0.68rem;opacity:.75;margin-top:2px;}
+.hdr-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px;}
+.hdr-badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.22);border-radius:4px;padding:2px 7px;font-size:0.6rem;font-weight:600;}
+
+.wrap{max-width:640px;margin:0 auto;padding:0.75rem 0.75rem 5.5rem;}
+
+.sec-lbl{font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;}
+
+.card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:1rem;box-shadow:var(--shadow);margin-bottom:0.75rem;}
+
+.cat-scroll{display:flex;gap:7px;overflow-x:auto;padding:0 0 4px;margin-bottom:0.75rem;scrollbar-width:none;}
+.cat-scroll::-webkit-scrollbar{display:none;}
+.cat-btn{flex-shrink:0;padding:8px 16px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--muted);white-space:nowrap;-webkit-appearance:none;min-height:38px;}
+.cat-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+.test-list{display:flex;flex-direction:column;gap:7px;}
+.test-item{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;cursor:pointer;background:var(--card);display:flex;align-items:center;gap:10px;min-height:52px;}
+.test-item.active{border-color:var(--primary);background:var(--blue-bg);}
+.ti-body{flex:1;min-width:0;}
+.ti-badge{display:inline-block;font-size:0.58rem;padding:2px 7px;border-radius:3px;font-weight:700;margin-bottom:4px;}
+.ti-badge.aspal{background:#fdebd0;color:#7a3800;}
+.ti-badge.agregat{background:#d4f5e2;color:#155c30;}
+.ti-badge.campuran{background:#d4e8f8;color:#0f3a6a;}
+.ti-title{font-size:0.82rem;font-weight:600;color:var(--text);line-height:1.3;}
+.ti-ref{font-size:0.67rem;color:var(--muted2);margin-top:2px;}
+.ti-check{font-size:1rem;flex-shrink:0;opacity:0;}
+.test-item.active .ti-check{opacity:1;}
+
+.form-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:1rem;box-shadow:var(--shadow);margin-bottom:0.75rem;}
+.test-hdr-title{font-size:0.95rem;font-weight:700;color:var(--primary);line-height:1.3;margin-bottom:4px;}
+.test-hdr-sub{font-size:0.71rem;color:var(--muted);line-height:1.5;margin-bottom:4px;}
+.ref-tag{display:inline-block;background:var(--blue-bg);color:var(--primary);border-radius:4px;font-size:0.6rem;padding:2px 8px;font-weight:700;margin-bottom:6px;}
+.divider{border:none;border-top:1px solid var(--border);margin:0.85rem 0;}
+
+.grade-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:0.85rem;scrollbar-width:none;}
+.grade-scroll::-webkit-scrollbar{display:none;}
+.grade-btn{flex-shrink:0;padding:8px 14px;border-radius:7px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:0.78rem;font-weight:500;color:var(--muted);white-space:nowrap;-webkit-appearance:none;min-height:38px;}
+.grade-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+.inputs-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:0.75rem;}
+.inputs-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0.75rem;}
+.inputs-2col .span2{grid-column:1/-1;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fg label{font-size:0.72rem;font-weight:600;color:var(--muted);}
+input[type=number],select{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 12px;font-size:1rem;color:var(--text);background:var(--card);width:100%;-webkit-appearance:none;appearance:none;min-height:46px;}
+input:focus,select:focus{outline:none;border-color:var(--primary-l);}
+.unit-hint{font-size:0.67rem;color:var(--muted2);}
+
+.val-wrap{position:fixed;bottom:0;left:0;right:0;padding:0.75rem;background:rgba(242,244,247,0.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--border);z-index:90;}
+.val-inner{max-width:640px;margin:auto;}
+.val-btn{background:var(--primary);color:#fff;border:none;border-radius:10px;padding:14px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;min-height:50px;box-shadow:0 2px 10px rgba(26,78,124,.3);}
+.val-btn:active{background:var(--primary-d);}
+
+.result-wrap{margin-top:0.5rem;}
+.r-banner{display:flex;align-items:center;gap:12px;padding:0.9rem 1rem;border-radius:var(--radius-sm) var(--radius-sm) 0 0;border:1.5px solid;}
+.r-banner.pass{background:var(--green-bg);border-color:var(--green-bd);}
+.r-banner.fail{background:var(--red-bg);border-color:var(--red-bd);}
+.r-banner.partial{background:var(--amber-bg);border-color:var(--amber-bd);}
+.r-icon{font-size:1.5rem;}
+.r-title{font-weight:700;font-size:0.88rem;line-height:1.3;}
+.r-title.pass{color:var(--green);}
+.r-title.fail{color:var(--red);}
+.r-title.partial{color:var(--amber);}
+.r-sub{font-size:0.7rem;margin-top:2px;opacity:.85;}
+.r-sub.pass{color:var(--green);}
+.r-sub.fail{color:var(--red);}
+.r-sub.partial{color:var(--amber);}
+
+.result-body{border:1.5px solid;border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);overflow:hidden;background:var(--card);}
+.result-body.pass{border-color:var(--green-bd);}
+.result-body.fail{border-color:var(--red-bd);}
+.result-body.partial{border-color:var(--amber-bd);}
+
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0.85rem;}
+.stat-card{background:var(--bg);border-radius:var(--radius-sm);padding:0.65rem;text-align:center;}
+.stat-num{font-size:1.5rem;font-weight:800;}
+.stat-num.pass{color:var(--green);}
+.stat-num.fail{color:var(--red);}
+.stat-num.total{color:var(--primary);}
+.stat-lbl{font-size:0.62rem;color:var(--muted);margin-top:3px;}
+
+.comp-box{background:var(--blue-bg);border-radius:var(--radius-sm);margin:0 0.85rem 0.75rem;padding:0.75rem;}
+.comp-box h4{font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--primary);margin-bottom:7px;}
+.comp-row{display:flex;justify-content:space-between;align-items:baseline;font-size:0.76rem;padding:4px 0;border-bottom:1px solid rgba(26,82,118,.1);gap:8px;}
+.comp-row:last-child{border:none;}
+.comp-row .cl{color:var(--muted);flex:1;}
+.comp-row .cv{font-weight:700;color:var(--primary);}
+.comp-formula{font-size:0.67rem;font-family:monospace;color:var(--primary);word-break:break-all;margin-top:2px;}
+
+.param-row{padding:0.75rem 0.85rem;border-bottom:1px solid var(--border);background:var(--card);}
+.p-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:5px;}
+.p-name{font-size:0.82rem;font-weight:700;flex:1;line-height:1.3;}
+.p-val{font-size:0.82rem;font-weight:700;color:var(--primary);flex-shrink:0;}
+.p-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px;}
+.pb{font-size:0.65rem;padding:3px 9px;border-radius:4px;font-weight:700;}
+.pb.pass{background:#b8ecd0;color:var(--green);}
+.pb.fail{background:#f5b8b8;color:var(--red);}
+.p-syarat{font-size:0.68rem;color:var(--muted2);line-height:1.5;}
+.p-note{font-size:0.7rem;color:var(--amber);margin-top:3px;font-weight:500;}
+
+.rec-box{margin:0.75rem 0.85rem;border-radius:var(--radius-sm);border-left:4px solid;padding:0.75rem 0.85rem;background:#fafbfc;}
+.rec-box.pass{border-color:var(--green);}
+.rec-box.fail{border-color:var(--red);}
+.rec-box.partial{border-color:var(--amber);}
+.rec-box h4{font-size:0.72rem;font-weight:800;margin-bottom:6px;}
+.rec-box.pass h4{color:var(--green);}
+.rec-box.fail h4{color:var(--red);}
+.rec-box.partial h4{color:var(--amber);}
+.rec-box p{font-size:0.76rem;color:var(--muted);line-height:1.65;}
+.rec-box ul{padding-left:14px;margin-top:5px;}
+.rec-box li{font-size:0.74rem;color:var(--muted);line-height:1.6;margin-bottom:2px;}
+
+.std-box{margin:0 0.85rem 0.85rem;background:var(--bg);border-radius:var(--radius-sm);padding:0.65rem 0.75rem;}
+.std-box h5{font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px;}
+.std-table{width:100%;border-collapse:collapse;font-size:0.67rem;}
+.std-table th{text-align:left;color:var(--primary);padding:3px 5px;border-bottom:1px solid var(--border);}
+.std-table td{padding:3px 5px;color:var(--muted);border-bottom:1px solid var(--border);}
+.std-table tr:last-child td{border:none;}
+
+.empty-state{text-align:center;padding:2rem 1rem;}
+.em-icon{font-size:2.5rem;margin-bottom:0.5rem;}
+.empty-state p{font-size:0.82rem;color:var(--muted);line-height:1.6;}
+
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-icon">🛣️</div>
+    <div class="hdr-text">
+      <h1>Validator Lab Jalan Raya</h1>
+      <p>Teknik Sipil — Universitas Lampung</p>
+      <div class="hdr-badges">
+        <span class="hdr-badge">SNI</span>
+        <span class="hdr-badge">Bina Marga</span>
+        <span class="hdr-badge">AASHTO</span>
+        <span class="hdr-badge">ASTM</span>
+        <span class="hdr-badge">BS 812</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="cat-scroll" id="catBar">
+    <button class="cat-btn active" onclick="fcat('all',this)">🔍 Semua</button>
+    <button class="cat-btn" onclick="fcat('aspal',this)">🔶 Aspal</button>
+    <button class="cat-btn" onclick="fcat('agregat',this)">🪨 Agregat</button>
+    <button class="cat-btn" onclick="fcat('campuran',this)">🏗️ Campuran</button>
+  </div>
+
+  <div class="card">
+    <div class="sec-lbl">Pilih Jenis Pengujian</div>
+    <div class="test-list" id="testList"></div>
+  </div>
+
+  <div id="formPanel" class="hidden">
+    <div class="form-card" id="formCard"></div>
+  </div>
+
+  <div id="emptyState" class="card">
+    <div class="empty-state">
+      <div class="em-icon">🔬</div>
+      <p>Pilih jenis pengujian di atas,<br>masukkan hasil uji, lalu klik Validasi.</p>
+    </div>
+  </div>
+</div>
+
+<div class="val-wrap hidden" id="valWrap">
+  <div class="val-inner">
+    <button class="val-btn" onclick="runVal()">🔍 Validasi Hasil Uji</button>
+  </div>
+</div>
+
+<script>
+const T={
+  penetrasi:{id:'penetrasi',nama:'Penetrasi Bitumen',kat:'aspal',ref:'SNI 2456:2011 / AASHTO T-49 / PB-0301-76',desk:'Kedalaman masuk jarum pada 25°C, beban 100g, waktu 5 detik',hasGrade:true,grades:['Pen 40/50','Pen 60/70','Pen 80/100','Pen 120/150'],two:true,
+    inputs:[{id:'p1',lbl:'Pembacaan 1',unit:'×0.1 mm',ph:'mis. 65.0'},{id:'p2',lbl:'Pembacaan 2',unit:'×0.1 mm',ph:'mis. 64.5'},{id:'p3',lbl:'Pembacaan 3',unit:'×0.1 mm',ph:'mis. 65.5'}],
+    compute(d){const v=[+d.p1,+d.p2,+d.p3],avg=v.reduce((a,b)=>a+b,0)/3,range=Math.max(...v)-Math.min(...v),tol=avg<50?2:avg<150?4:avg<250?6:8;return{avg:avg.toFixed(1),range:range.toFixed(1),tolOk:range<=tol,tol};},
+    validate(d,g,c){const avg=+c.avg,sp={'Pen 40/50':{sn:[40,50],bm:[40,50]},'Pen 60/70':{sn:[60,79],bm:[60,70]},'Pen 80/100':{sn:[80,99],bm:[80,100]},'Pen 120/150':{sn:[120,150],bm:[120,150]}}[g]||{sn:[60,79],bm:[60,70]};return[{nama:'Penetrasi Rata-Rata',nilai:`${c.avg} ×0.1mm`,sni:avg>=sp.sn[0]&&avg<=sp.sn[1],bm:avg>=sp.bm[0]&&avg<=sp.bm[1],ssni:`${sp.sn[0]}–${sp.sn[1]} ×0.1mm`,sbm:`${sp.bm[0]}–${sp.bm[1]} ×0.1mm`},{nama:'Toleransi Pembacaan',nilai:`Δ ${c.range}`,sni:c.tolOk,bm:c.tolOk,ssni:`≤ ${c.tol}`,sbm:`≤ ${c.tol}`,note:c.tolOk?'':'⚠ Melebihi toleransi — uji harus diulang'}];},
+    clbls:{avg:'Penetrasi Rata-Rata (×0.1mm)',range:'Rentang Pembacaan',tol:'Batas Toleransi'},
+    rec:{pass:'Penetrasi memenuhi syarat. Aspal layak untuk campuran perkerasan.',fail:'Tidak sesuai:\n• Nilai rendah (keras): cek suhu waterbath 25±0.1°C, kurangi waktu pemanasan\n• Nilai tinggi (lunak): cek kebersihan jarum dan waktu perendaman\n• Toleransi melebihi batas: ulang pengujian 3 titik baru'}},
+
+  titik_lembek:{id:'titik_lembek',nama:'Titik Lembek Aspal',kat:'aspal',ref:'SNI 2434:2011 / AASHTO T-53 / PA-0302-76',desk:'Suhu saat bola baja mendesak turun lapisan aspal dalam cincin (Ring & Ball)',hasGrade:true,grades:['Pen 40/50','Pen 60/70','Pen 80/100','Pen 120/150'],two:true,
+    inputs:[{id:'tl1',lbl:'Titik Lembek Sampel 1',unit:'°C',ph:'mis. 51.0'},{id:'tl2',lbl:'Titik Lembek Sampel 2',unit:'°C',ph:'mis. 51.5'}],
+    compute(d){const avg=(+d.tl1 + +d.tl2)/2,diff=Math.abs(+d.tl1 - +d.tl2);return{avg:avg.toFixed(1),diff:diff.toFixed(1),tolOk:diff<=1};},
+    validate(d,g,c){const mn={'Pen 40/50':51,'Pen 60/70':48,'Pen 80/100':46,'Pen 120/150':43}[g]||48,ok=+c.avg>=mn;return[{nama:'Titik Lembek Rata-Rata',nilai:`${c.avg}°C`,sni:ok,bm:ok,ssni:`≥${mn}°C`,sbm:`≥${mn}°C`},{nama:'Toleransi Duplo',nilai:`Δ${c.diff}°C`,sni:c.tolOk,bm:c.tolOk,ssni:'≤1°C',sbm:'≤1°C',note:c.tolOk?'':'⚠ Selisih >1°C — uji harus diulang'}];},
+    clbls:{avg:'Rata-rata (°C)',diff:'Selisih Duplo (°C)'},
+    rec:{pass:'Titik lembek memenuhi syarat. Aspal tahan deformasi pada suhu tinggi.',fail:'Tidak memenuhi:\n• Kecepatan pemanasan harus tepat 5°C/menit\n• Bola baja harus bersuhu 5°C saat diletakkan\n• Tinggi pelat dasar dari cincin harus 25.4 mm\n• Kemungkinan aspal terdegradasi — ganti sampel'}},
+
+  penurunan_berat:{id:'penurunan_berat',nama:'Penurunan Berat (TFOT)',kat:'aspal',ref:'SNI 06-2440-1991 / AASHTO T-47 / PA-0304-76',desk:'Penurunan berat aspal setelah pemanasan 163°C selama 5 jam (% dari berat awal)',hasGrade:false,two:true,
+    inputs:[{id:'a1',lbl:'Berat Awal Sampel 1 (A₁)',unit:'gram',ph:'mis. 50.00'},{id:'b1',lbl:'Berat Akhir Sampel 1 (B₁)',unit:'gram',ph:'mis. 49.62'},{id:'a2',lbl:'Berat Awal Sampel 2 (A₂)',unit:'gram',ph:'mis. 50.05'},{id:'b2',lbl:'Berat Akhir Sampel 2 (B₂)',unit:'gram',ph:'mis. 49.68'}],
+    compute(d){const pb1=((+d.a1-+d.b1)/+d.a1)*100,pb2=((+d.a2-+d.b2)/+d.a2)*100;return{pb1:pb1.toFixed(3),pb2:pb2.toFixed(3),avg:((pb1+pb2)/2).toFixed(3)};},
+    validate(d,g,c){return[{nama:'Penurunan Berat Sampel 1',nilai:`${c.pb1}%`,sni:+c.pb1<=0.8,bm:+c.pb1<=0.8,ssni:'≤0.8%',sbm:'≤0.8%'},{nama:'Penurunan Berat Sampel 2',nilai:`${c.pb2}%`,sni:+c.pb2<=0.8,bm:+c.pb2<=0.8,ssni:'≤0.8%',sbm:'≤0.8%'},{nama:'Rata-Rata Penurunan Berat',nilai:`${c.avg}%`,sni:+c.avg<=0.8,bm:+c.avg<=0.8,ssni:'≤0.8%',sbm:'≤0.8%'}];},
+    clbls:{pb1:'Sampel 1 (%)',pb2:'Sampel 2 (%)',avg:'Rata-rata (%)'},
+    rec:{pass:'Penurunan berat memenuhi syarat. Kandungan volatile aspal aman.',fail:'Penurunan >0.8%:\n• Suhu oven harus tepat 163±1°C\n• Cawan harus bersih dan kering\n• Aspal mungkin pre-aging — ganti sampel\n• Waktu pemanasan sebelum dituang ke cawan ≤2 jam'}},
+
+  daktilitas:{id:'daktilitas',nama:'Daktilitas Bitumen',kat:'aspal',ref:'SNI 2432:2011 / AASHTO T-51 / PA-0306-76',desk:'Jarak tarik benda uji bitumen sebelum putus pada suhu 25°C, kecepatan 5 cm/menit',hasGrade:false,two:true,
+    inputs:[{id:'d1',lbl:'Pembacaan 1',unit:'cm',ph:'mis. 120'},{id:'d2',lbl:'Pembacaan 2',unit:'cm',ph:'mis. 118'},{id:'d3',lbl:'Pembacaan 3',unit:'cm',ph:'mis. 125'}],
+    compute(d){const v=[+d.d1,+d.d2,+d.d3];return{avg:(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1)};},
+    validate(d,g,c){const ok=+c.avg>=100;return[{nama:'Daktilitas Rata-Rata',nilai:`${c.avg}cm`,sni:ok,bm:ok,ssni:'≥100cm',sbm:'≥100cm'}];},
+    clbls:{avg:'Rata-rata (cm)'},
+    rec:{pass:'Daktilitas memenuhi syarat. Aspal memiliki kemampuan deformasi plastis yang baik.',fail:'Daktilitas <100cm:\n• Suhu bak harus 25±0.5°C selama pengujian\n• Kecepatan tarik harus tepat 5 cm/menit\n• Benda uji tenggelam/terapung: sesuaikan BJ air dengan methyl alkohol/NaCl'}},
+
+  bj_aspal:{id:'bj_aspal',nama:'Berat Jenis Bitumen (Piknometer)',kat:'aspal',ref:'SNI 2441:2011 / AASHTO T-228 / PA-0307-76',desk:'BJ bitumen dengan piknometer pada 25°C. Rumus: BJ = (C−A)/[(B−A)−(D−C)]',hasGrade:false,two:true,
+    inputs:[{id:'A',lbl:'A — Piknometer kosong',unit:'gram',ph:'mis. 25.000'},{id:'B',lbl:'B — Piknometer + air penuh',unit:'gram',ph:'mis. 47.500'},{id:'C',lbl:'C — Piknometer + aspal (¾)',unit:'gram',ph:'mis. 36.500'},{id:'D',lbl:'D — Piknometer + aspal + air',unit:'gram',ph:'mis. 56.200'}],
+    compute(d){const A=+d.A,B=+d.B,C=+d.C,D=+d.D,bj=(C-A)/((B-A)-(D-C));return{bj:isFinite(bj)?bj.toFixed(3):'—',formula:`(${(C-A).toFixed(3)})/[(${(B-A).toFixed(3)})−(${(D-C).toFixed(3)})]`};},
+    validate(d,g,c){const ok=+c.bj>=1.0&&+c.bj<=1.04;return[{nama:'Berat Jenis Bitumen',nilai:`${c.bj} g/cm³`,sni:ok,bm:ok,ssni:'1.00 – 1.04 g/cm³',sbm:'1.00 – 1.04 g/cm³'}];},
+    clbls:{bj:'Berat Jenis (g/cm³)',formula:'BJ = (C−A)/[(B−A)−(D−C)]'},
+    rec:{pass:'Berat jenis aspal memenuhi syarat (1.00–1.04 g/cm³). Aspal memiliki kerapatan yang baik untuk campuran perkerasan.',fail:'BJ di luar rentang 1.00–1.04 g/cm³:\n• BJ <1.00: piknometer harus benar-benar kering sebelum mengisi aspal, tidak boleh ada gelembung udara, suhu bak perendam harus 25±0.1°C\n• BJ >1.04: kemungkinan aspal terkontaminasi material berat atau piknometer tidak bersih sempurna\n• Diamkan minimal 30 menit dalam bak sebelum menimbang\n• Ulangi pengujian jika ada keraguan pada prosedur'}},
+
+  keausan_la:{id:'keausan_la',nama:'Keausan Agregat (Los Angeles)',kat:'agregat',ref:'SNI 2417:2008 / AASHTO T-96 / ASTM C-131 / PB-0206-76',desk:'Ketahanan agregat kasar terhadap keausan. Keausan = (a−b)/a × 100%',hasGrade:true,grades:['Gradasi A','Gradasi B','Gradasi C','Gradasi D','Gradasi E','Gradasi F','Gradasi G'],two:false,
+    inputs:[{id:'a',lbl:'Berat Benda Uji Semula (a)',unit:'gram',ph:'mis. 5000'},{id:'b',lbl:'Berat Tertahan Saringan No.12 (b)',unit:'gram',ph:'mis. 3250'}],
+    compute(d){const keausan=((+d.a-+d.b)/+d.a)*100;return{keausan:keausan.toFixed(2),hilang:(+d.a-+d.b).toFixed(1)};},
+    validate(d,g,c){const ok=+c.keausan<=40;return[{nama:'Nilai Keausan',nilai:`${c.keausan}%`,sni:ok,bm:ok,ssni:'≤40%',sbm:'≤40%'}];},
+    clbls:{keausan:'Keausan (%)',hilang:'Berat Hilang (gram)'},
+    rec:{pass:'Ketahanan agregat memenuhi syarat. Agregat cukup keras dan tahan abrasi.',fail:'Keausan >40%:\n• Agregat terlalu lunak — ganti sumber quarry\n• Batuan beku lebih tahan dari batuan sedimen\n• Tidak layak untuk lapis perkerasan utama'}},
+
+  bj_kasar:{id:'bj_kasar',nama:'BJ & Penyerapan Agregat Kasar',kat:'agregat',ref:'SNI 1969:2016 / AASHTO T-85 / ASTM C-127 / PB-0202-76',desk:'BJ Bulk, SSD, Apparent, dan penyerapan agregat tertahan saringan No.4',hasGrade:false,two:false,
+    inputs:[{id:'Bk',lbl:'Bk — Berat Kering Oven',unit:'gram',ph:'mis. 4920.0'},{id:'BJ',lbl:'BJ — Berat SSD (Kering Permukaan Jenuh)',unit:'gram',ph:'mis. 5000.0'},{id:'Ba',lbl:'Ba — Berat dalam Air',unit:'gram',ph:'mis. 3125.0'}],
+    compute(d){const Bk=+d.Bk,BJ=+d.BJ,Ba=+d.Ba;return{bulk:(Bk/(BJ-Ba)).toFixed(3),ssd:(BJ/(BJ-Ba)).toFixed(3),app:(Bk/(Bk-Ba)).toFixed(3),abs:(((BJ-Bk)/Bk)*100).toFixed(2)};},
+    validate(d,g,c){return[{nama:'BJ Bulk',nilai:`${c.bulk} g/cm³`,sni:+c.bulk>=2.5,bm:+c.bulk>=2.5,ssni:'≥2.5',sbm:'≥2.5'},{nama:'BJ SSD',nilai:`${c.ssd} g/cm³`,sni:true,bm:true,ssni:'Informatif',sbm:'Informatif'},{nama:'BJ Apparent',nilai:`${c.app} g/cm³`,sni:true,bm:true,ssni:'Informatif',sbm:'Informatif'},{nama:'Penyerapan Air',nilai:`${c.abs}%`,sni:+c.abs<=3.0,bm:+c.abs<=3.0,ssni:'≤3.0%',sbm:'≤3.0%'}];},
+    clbls:{bulk:'BJ Bulk (g/cm³)',ssd:'BJ SSD (g/cm³)',app:'BJ Apparent (g/cm³)',abs:'Penyerapan (%)'},
+    rec:{pass:'BJ dan penyerapan agregat kasar memenuhi syarat.',fail:'Tidak memenuhi:\n• BJ <2.5: agregat terlalu ringan/porous — ganti sumber\n• Penyerapan >3%: agregat berpori tinggi → butuh kadar aspal lebih tinggi\n• Kondisi SSD harus tepat: permukaan kering, interior jenuh air'}},
+
+  bj_halus:{id:'bj_halus',nama:'BJ & Penyerapan Agregat Halus',kat:'agregat',ref:'SNI 1970:2016 / AASHTO T-84 / ASTM C-128 / PB-0203-76',desk:'BJ & penyerapan agregat lolos saringan No.4 menggunakan piknometer (500g SSD)',hasGrade:false,two:false,
+    inputs:[{id:'Bk',lbl:'Bk — Berat Kering Oven',unit:'gram',ph:'mis. 490.0'},{id:'B',lbl:'B — Piknometer + air (penuh)',unit:'gram',ph:'mis. 657.0'},{id:'Bt',lbl:'Bt — Piknometer + benda uji + air',unit:'gram',ph:'mis. 964.0'}],
+    compute(d){const Bk=+d.Bk,B=+d.B,Bt=+d.Bt,S=500;return{bulk:(Bk/(B+S-Bt)).toFixed(3),ssd:(S/(B+S-Bt)).toFixed(3),app:(Bk/(B+Bk-Bt)).toFixed(3),abs:(((S-Bk)/Bk)*100).toFixed(2)};},
+    validate(d,g,c){return[{nama:'BJ Bulk',nilai:`${c.bulk} g/cm³`,sni:+c.bulk>=2.5,bm:+c.bulk>=2.5,ssni:'≥2.5',sbm:'≥2.5'},{nama:'BJ SSD',nilai:`${c.ssd} g/cm³`,sni:true,bm:true,ssni:'Informatif',sbm:'Informatif'},{nama:'BJ Apparent',nilai:`${c.app} g/cm³`,sni:true,bm:true,ssni:'Informatif',sbm:'Informatif'},{nama:'Penyerapan Air',nilai:`${c.abs}%`,sni:+c.abs<=5.0,bm:+c.abs<=5.0,ssni:'≤5.0%',sbm:'≤5.0%'}];},
+    clbls:{bulk:'BJ Bulk (g/cm³)',ssd:'BJ SSD (g/cm³)',app:'BJ Apparent (g/cm³)',abs:'Penyerapan (%)'},
+    rec:{pass:'BJ dan penyerapan agregat halus memenuhi syarat.',fail:'Tidak memenuhi:\n• BJ <2.5: gunakan sumber agregat lebih padat\n• Penyerapan >5%: agregat terlalu porous\n• Cek kondisi SSD: uji cone — runtuh = sudah SSD'}},
+
+  aiv:{id:'aiv',nama:'Kekuatan Agregat Tumbukan (AIV)',kat:'agregat',ref:'BS 812 Part 3: 1975',desk:'Aggregate Impact Value — 15 tumbukan bebas 380mm, lolos saringan 2.36mm',hasGrade:false,two:true,
+    inputs:[{id:'A1',lbl:'Berat Awal Sampel 1 (A)',unit:'gram',ph:'mis. 600.0'},{id:'B1',lbl:'Lolos 2.36mm Sampel 1 (B)',unit:'gram',ph:'mis. 60.0'},{id:'A2',lbl:'Berat Awal Sampel 2 (A)',unit:'gram',ph:'mis. 600.5'},{id:'B2',lbl:'Lolos 2.36mm Sampel 2 (B)',unit:'gram',ph:'mis. 58.5'}],
+    compute(d){const aiv1=(+d.B1/+d.A1)*100,aiv2=(+d.B2/+d.A2)*100;return{aiv1:aiv1.toFixed(1),aiv2:aiv2.toFixed(1),avg:((aiv1+aiv2)/2).toFixed(1)};},
+    validate(d,g,c){return[{nama:'AIV Sampel 1',nilai:`${c.aiv1}%`,sni:+c.aiv1<=30,bm:+c.aiv1<=30,ssni:'≤30%',sbm:'≤30%'},{nama:'AIV Sampel 2',nilai:`${c.aiv2}%`,sni:+c.aiv2<=30,bm:+c.aiv2<=30,ssni:'≤30%',sbm:'≤30%'},{nama:'AIV Rata-Rata',nilai:`${c.avg}%`,sni:+c.avg<=30,bm:+c.avg<=30,ssni:'≤30%',sbm:'≤30% (Bina Marga)'}];},
+    clbls:{aiv1:'AIV Sampel 1 (%)',aiv2:'AIV Sampel 2 (%)',avg:'AIV Rata-rata (%)'},
+    rec:{pass:'AIV memenuhi syarat. Agregat cukup kuat terhadap tumbukan.',fail:'AIV >30%:\n• Agregat terlalu rapuh — pertimbangkan ganti batuan\n• Basalt/Andesit biasanya AIV 11–13%\n• Sampel harus lolos 14mm dan tertahan 10mm\n• Kering oven 4 jam 110±5°C wajib dipenuhi'}},
+
+  acv:{id:'acv',nama:'Kekuatan Agregat Tekanan (ACV)',kat:'agregat',ref:'BS 812 Part 3: 1975',desk:'Aggregate Crushing Value — beban tekan 40kN selama 10 menit, lolos saringan 2.36mm',hasGrade:false,two:true,
+    inputs:[{id:'A1',lbl:'Berat Awal Sampel 1 (A)',unit:'gram',ph:'mis. 258.5'},{id:'B1',lbl:'Lolos 2.36mm Sampel 1 (B)',unit:'gram',ph:'mis. 36.4'},{id:'A2',lbl:'Berat Awal Sampel 2 (A)',unit:'gram',ph:'mis. 212.6'},{id:'B2',lbl:'Lolos 2.36mm Sampel 2 (B)',unit:'gram',ph:'mis. 29.6'}],
+    compute(d){const acv1=(+d.B1/+d.A1)*100,acv2=(+d.B2/+d.A2)*100;return{acv1:acv1.toFixed(1),acv2:acv2.toFixed(1),avg:((acv1+acv2)/2).toFixed(1)};},
+    validate(d,g,c){return[{nama:'ACV Sampel 1',nilai:`${c.acv1}%`,sni:+c.acv1<=30,bm:+c.acv1<=30,ssni:'≤30%',sbm:'≤30%'},{nama:'ACV Sampel 2',nilai:`${c.acv2}%`,sni:+c.acv2<=30,bm:+c.acv2<=30,ssni:'≤30%',sbm:'≤30%'},{nama:'ACV Rata-Rata',nilai:`${c.avg}%`,sni:+c.avg<=30,bm:+c.avg<=30,ssni:'≤30%',sbm:'≤30% (Bina Marga)'}];},
+    clbls:{acv1:'ACV Sampel 1 (%)',acv2:'ACV Sampel 2 (%)',avg:'ACV Rata-rata (%)'},
+    rec:{pass:'ACV memenuhi syarat. Agregat tahan terhadap beban tekanan.',fail:'ACV >30%:\n• Agregat tidak cukup keras untuk perkerasan\n• Beban penekanan harus 40kN merata tepat 10 menit\n• Granite ACV 23–30%, Basalt 16–17%'}},
+
+  kelekatan:{id:'kelekatan',nama:'Kelekatan Agregat Terhadap Aspal',kat:'agregat',ref:'SNI 2439:2011 / AASHTO T-182 / PB-0205-76',desk:'% luas permukaan agregat masih terselaput aspal setelah direndam air 16–18 jam',hasGrade:false,two:false,
+    inputs:[{id:'kel',lbl:'Luas Permukaan Terselaput Aspal',unit:'%',ph:'mis. 97'}],
+    compute(d){return{kel:+d.kel};},
+    validate(d,g,c){const ok=+c.kel>=95;return[{nama:'Kelekatan Agregat',nilai:`${c.kel}%`,sni:ok,bm:ok,ssni:'≥95%',sbm:'≥95%'}];},
+    clbls:{},
+    rec:{pass:'Kelekatan memenuhi syarat. Aspal tahan terhadap stripping.',fail:'Kelekatan <95%:\n• Risiko stripping pada kondisi basah\n• Gunakan agregat permukaan lebih kasar dan bersih\n• Tambahkan additive anti-stripping (kapur, liquid anti-strip)\n• Pastikan agregat kering saat dicampur aspal'}},
+
+  kepipihan:{id:'kepipihan',nama:'Indeks Kepipihan & Kelonjongan',kat:'agregat',ref:'BS 812 Part 3: 1975',desk:'% agregat pipih (lolos alat kepipihan) dan lonjong (tertahan alat kelonjongan)',hasGrade:false,two:false,
+    inputs:[{id:'M2',lbl:'M2 — Total berat fraksi ≥5%',unit:'gram',ph:'mis. 4800'},{id:'M3F',lbl:'M3F — Lolos alat kepipihan',unit:'gram',ph:'mis. 960'},{id:'M3E',lbl:'M3E — Tertahan alat kelonjongan',unit:'gram',ph:'mis. 1200'}],
+    compute(d){return{ip:((+d.M3F/+d.M2)*100).toFixed(1),ik:((+d.M3E/+d.M2)*100).toFixed(1)};},
+    validate(d,g,c){return[{nama:'Indeks Kepipihan',nilai:`${c.ip}%`,sni:+c.ip<=25,bm:+c.ip<=25,ssni:'≤25%',sbm:'≤25% (lapis pondasi atas)'},{nama:'Indeks Kelonjongan',nilai:`${c.ik}%`,sni:+c.ik<=25,bm:+c.ik<=25,ssni:'≤25%',sbm:'≤25%'}];},
+    clbls:{ip:'Indeks Kepipihan (%)',ik:'Indeks Kelonjongan (%)'},
+    rec:{pass:'Indeks kepipihan dan kelonjongan memenuhi syarat. Bentuk agregat baik untuk interlocking.',fail:'Melebihi batas:\n• Agregat pipih/lonjong mudah patah → gradasi berubah saat pemadatan\n• Maks 25% untuk lapis pondasi — tidak boleh untuk lapis permukaan\n• Crushing lanjutan dapat mengurangi indeks kepipihan'}},
+
+  marshall:{id:'marshall',nama:'Campuran Aspal Metode Marshall',kat:'campuran',ref:'SNI 06-2489-1991 / AASHTO T-245 / ASTM D-1559 / PB-0201-76',desk:'Stabilitas, Flow, VIM, VMA, VFB, dan Marshall Quotient campuran aspal panas',hasGrade:true,grades:['75 Tumbukan (Berat/Sedang)','50 Tumbukan (Ringan)','35 Tumbukan (Parkir)'],two:false,
+    inputs:[{id:'stab',lbl:'Stabilitas Terkoreksi',unit:'kg',ph:'mis. 950'},{id:'flow',lbl:'Flow (Kelelehan)',unit:'mm',ph:'mis. 3.2'},{id:'vim',lbl:'VIM — Rongga dalam Campuran',unit:'%',ph:'mis. 4.5'},{id:'vma',lbl:'VMA — Rongga dalam Agregat',unit:'%',ph:'mis. 16.5'},{id:'vfb',lbl:'VFB — Rongga Terisi Aspal',unit:'%',ph:'mis. 70'},{id:'nmas',lbl:'NMAS',unit:'',ph:'',isSel:true,opts:['12.5 mm (AC-WC)','19.0 mm (AC-BC)','25.0 mm (AC-Base)']}],
+    compute(d){const mq=+d.stab/+d.flow;return{mq:isFinite(mq)?mq.toFixed(1):'—'};},
+    validate(d,g,c){const nm=d.nmas||'19.0 mm',vmaMin=nm.includes('12.5')?14:nm.includes('19')?15:16,sMin=g.includes('75')?800:g.includes('50')?600:400,mqMin=g.includes('75')?250:g.includes('50')?200:150;return[{nama:'Stabilitas',nilai:`${d.stab}kg`,sni:+d.stab>=sMin,bm:+d.stab>=sMin,ssni:`≥${sMin}kg`,sbm:`≥${sMin}kg`},{nama:'Flow',nilai:`${d.flow}mm`,sni:+d.flow>=2&&+d.flow<=4,bm:+d.flow>=2&&+d.flow<=4,ssni:'2–4mm',sbm:'2–4mm'},{nama:'VIM',nilai:`${d.vim}%`,sni:+d.vim>=3.5&&+d.vim<=5.5,bm:+d.vim>=3.5&&+d.vim<=5.5,ssni:'3.5–5.5%',sbm:'3.5–5.5%'},{nama:`VMA (${nm.split(' ')[0]})`,nilai:`${d.vma}%`,sni:+d.vma>=vmaMin,bm:+d.vma>=vmaMin,ssni:`≥${vmaMin}%`,sbm:`≥${vmaMin}%`},{nama:'VFB',nilai:`${d.vfb}%`,sni:+d.vfb>=65&&+d.vfb<=75,bm:+d.vfb>=65&&+d.vfb<=75,ssni:'65–75%',sbm:'65–75%'},{nama:'Marshall Quotient (S/F)',nilai:`${c.mq}kg/mm`,sni:+c.mq>=mqMin,bm:+c.mq>=mqMin,ssni:`≥${mqMin}kg/mm`,sbm:`≥${mqMin}kg/mm`}];},
+    clbls:{mq:'Marshall Quotient = Stab/Flow (kg/mm)'},
+    rec:{pass:'Semua parameter Marshall memenuhi syarat. Campuran berkinerja baik.',fail:'Tidak terpenuhi:\n• Stabilitas rendah: tambah kadar aspal atau perbaiki gradasi\n• Flow >4mm: kurangi kadar aspal\n• Flow <2mm: tambah kadar aspal\n• VIM >5.5%: tambah kadar aspal\n• VIM <3.5%: kurangi kadar aspal\n• VMA rendah: hindari gradasi terlalu rapat\n• MQ tinggi: campuran kaku → rentan retak'}}
+};
+
+const ORDER=['penetrasi','titik_lembek','penurunan_berat','daktilitas','bj_aspal','keausan_la','bj_kasar','bj_halus','aiv','acv','kelekatan','kepipihan','marshall'];
+let cur=null,grade=null,cat='all';
+
+function fcat(c,btn){cat=c;document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildList();}
+
+function buildList(){
+  const el=document.getElementById('testList');el.innerHTML='';
+  ORDER.forEach(id=>{
+    const t=T[id];if(!t||(cat!=='all'&&t.kat!==cat))return;
+    const d=document.createElement('div');d.className='test-item'+(cur===id?' active':'');d.onclick=()=>sel(id);
+    d.innerHTML=`<div class="ti-body"><span class="ti-badge ${t.kat}">${t.kat==='aspal'?'Aspal':t.kat==='agregat'?'Agregat':'Campuran'}</span><div class="ti-title">${t.nama}</div><div class="ti-ref">${t.ref.split('/')[0].trim()}</div></div><div class="ti-check">✅</div>`;
+    el.appendChild(d);
+  });
+}
+
+function sel(id){
+  cur=id;grade=null;buildList();
+  const t=T[id];
+  document.getElementById('emptyState').classList.add('hidden');
+  document.getElementById('formPanel').classList.remove('hidden');
+  document.getElementById('valWrap').classList.remove('hidden');
+  if(t.hasGrade)grade=t.grades[0];
+
+  const gradeHTML=t.hasGrade?`<div class="sec-lbl">Grade / Tipe</div><div class="grade-scroll" id="gs">${t.grades.map((g,i)=>`<button class="grade-btn${i===0?' active':''}" onclick="setG(${JSON.stringify(g)},this)">${g}</button>`).join('')}</div>`:'';
+
+  const useTwo=t.two&&t.inputs.length>=4;
+  let inp=`<div class="${useTwo?'inputs-2col':'inputs-grid'}" id="ig">`;
+  t.inputs.forEach(x=>{
+    const cls=(!useTwo||t.inputs.length<=2)?' span2':'';
+    if(x.isSel){inp+=`<div class="fg${cls}"><label>${x.lbl}</label><select id="inp_${x.id}">${x.opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`;}
+    else{inp+=`<div class="fg${cls}"><label>${x.lbl}</label><input type="number" id="inp_${x.id}" step="any" placeholder="${x.ph||''}"><span class="unit-hint">Satuan: ${x.unit}</span></div>`;}
+  });
+  inp+='</div>';
+
+  document.getElementById('formCard').innerHTML=`<span class="ref-tag">${t.ref}</span><div class="test-hdr-title">${t.nama}</div><div class="test-hdr-sub">${t.desk}</div><div class="divider"></div>${gradeHTML}<div class="sec-lbl">Input Hasil Uji</div>${inp}<div id="ra"></div>`;
+  setTimeout(()=>document.getElementById('formPanel').scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+
+function setG(g,btn){grade=g;document.querySelectorAll('#gs .grade-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('ra').innerHTML='';}
+
+function runVal(){
+  const t=T[cur];if(!t)return;
+  const d={};let err=false;
+  t.inputs.forEach(x=>{const el=document.getElementById('inp_'+x.id);if(!el)return;d[x.id]=el.value;if(!x.isSel&&(el.value===''||isNaN(+el.value))){err=true;el.style.borderColor='var(--red)';}else el.style.borderColor='';});
+  if(err){alert('Lengkapi semua field!');return;}
+
+  const g=grade||t.grades?.[0]||'',c=t.compute(d,g),res=t.validate(d,g,c);
+  const pN=res.filter(r=>r.sni&&r.bm).length,fN=res.filter(r=>!r.sni||!r.bm).length;
+  const allP=fN===0,allF=pN===0,st=allP?'pass':allF?'fail':'partial';
+  const icon=allP?'✅':allF?'❌':'⚠️',ttl=allP?'Memenuhi Standar':allF?'Tidak Memenuhi':'Sebagian Tidak Memenuhi';
+
+  const cEntries=Object.entries(c).filter(([k])=>t.clbls?.[k]);
+  let compH='';
+  if(cEntries.length){compH=`<div class="comp-box"><h4>Nilai Terhitung Otomatis</h4>${cEntries.map(([k,v])=>{const lbl=t.clbls[k];if(typeof v==='string'&&(v.includes('/')||v.includes('−'))){return`<div class="comp-row"><span class="cl">${lbl}</span></div><div class="comp-formula">${v}</div>`;}return`<div class="comp-row"><span class="cl">${lbl}</span><span class="cv">${v}</span></div>`;}).join('')}</div>`;}
+
+  const pRows=res.map(r=>`<div class="param-row"><div class="p-top"><div class="p-name">${r.nama}</div><div class="p-val">${r.nilai}</div></div><div class="p-badges"><span class="pb ${r.sni?'pass':'fail'}">SNI ${r.sni?'✓':'✗'}</span><span class="pb ${r.bm?'pass':'fail'}">Bina Marga ${r.bm?'✓':'✗'}</span></div><div class="p-syarat">SNI: ${r.ssni} &nbsp;·&nbsp; BM: ${r.sbm}</div>${r.note?`<div class="p-note">${r.note}</div>`:''}</div>`).join('');
+
+  const recTxt=t.rec?.[allP?'pass':'fail']||'',lines=recTxt.split('\n');
+  const recH=lines.length>1?`<p>${lines[0]}</p><ul>${lines.slice(1).filter(l=>l.trim()).map(l=>`<li>${l.replace(/^•\s*/,'')}</li>`).join('')}</ul>`:`<p>${recTxt}</p>`;
+
+  const stdRows=t.ref.split('/').map(r=>{const p=r.trim().split(' ');return`<tr><td>${p[0]}</td><td>${p.slice(1).join(' ')}</td></tr>`;}).join('');
+
+  document.getElementById('ra').innerHTML=`<div class="divider"></div><div class="result-wrap"><div class="r-banner ${st}"><span class="r-icon">${icon}</span><div><div class="r-title ${st}">${ttl}</div><div class="r-sub ${st}">${t.nama}${g?' · '+g:''}</div><div class="r-sub ${st}">${pN}/${res.length} parameter memenuhi</div></div></div><div class="result-body ${st}"><div class="stat-row"><div class="stat-card"><div class="stat-num pass">${pN}</div><div class="stat-lbl">Memenuhi</div></div><div class="stat-card"><div class="stat-num fail">${fN}</div><div class="stat-lbl">Tidak</div></div><div class="stat-card"><div class="stat-num total">${res.length}</div><div class="stat-lbl">Total</div></div></div>${compH}${pRows}<div class="rec-box ${st}" style="margin:.75rem .85rem"><h4>📋 Rekomendasi</h4>${recH}</div><div class="std-box"><h5>Standar Acuan</h5><table class="std-table"><tr><th>Standar</th><th>Nomor</th></tr>${stdRows}</table></div></div></div>`;
+  setTimeout(()=>document.getElementById('ra').scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+
+buildList();
+</script>
+</body>
+</html>
